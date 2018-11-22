@@ -1,5 +1,5 @@
 {
-  "name": "beof",
+  "name": "@quenk/must",
   "version": "1.0.0",
   "description": "Assertion library with mocha support.",
   "main": "lib/index.js",
