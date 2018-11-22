@@ -120,6 +120,10 @@ export declare class Failed extends Positive {
     assert(_: boolean, __: string): Matcher;
 }
 /**
+ * @private
+ */
+export declare const toString: <A>(value: A) => string;
+/**
  * must turns a value into a Matcher so it can be tested.
  *
  * The Matcher returned is positive and configured to throw
