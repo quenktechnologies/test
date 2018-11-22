@@ -426,6 +426,13 @@ describe('must', () => {
 
         });
 
+      it('should work with arrays', ()=> {
+
+        if(toString([1,2,3]) !== '[1,2,3]')
+          throw new Error('failed!');
+
+      });
+
         it('should work with instances', () => {
 
             if (toString(new Func()) !== 'Func')
