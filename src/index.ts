@@ -1,15 +1,10 @@
 import * as stringify from 'json-stringify-safe';
 import * as egal from 'egal';
 
-export type Type
-    = string
-    | number
-    | boolean
-    | object
-    | Function
-    | null
-    | undefined
-    ;
+/**
+ * Type 
+ */
+export type Type = any;
 
 /**
  * Matcher is used to execute tests against a value.

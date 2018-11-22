@@ -1,4 +1,7 @@
-export declare type Type = string | number | boolean | object | Function | null | undefined;
+/**
+ * Type
+ */
+export declare type Type = any;
 /**
  * Matcher is used to execute tests against a value.
  *
@@ -129,4 +132,4 @@ export declare const toString: <A>(value: A) => string;
  * The Matcher returned is positive and configured to throw
  * errors if any tests fail.
  */
-export declare const must: (value: Type) => Matcher;
+export declare const must: (value: any) => Matcher;
