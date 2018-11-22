@@ -1,4 +1,6 @@
-import { Positive, Negative, Failed } from '../src';
+import { Positive, Negative, Failed, toString } from '../src';
+
+class Func { }
 
 const pos = new Positive('foo', true);
 const neg = new Negative('foo', true);
@@ -396,6 +398,45 @@ describe('must', () => {
                     failed.negative.failure();
 
             });
+
+        });
+
+    });
+
+    describe('toString', () => {
+
+        it('should work with functions', () => {
+
+            if (toString(Func) !== 'Func')
+                throw new Error('failed!');
+
+        });
+
+        it('should work with dates', () => {
+
+            if (toString(new Date(1989, 6, 24)) !== '1989-07-24T04:00:00.000Z')
+                throw new Error('failed!');
+
+        });
+
+        it('should work with RegExp', () => {
+
+            if (toString(/.*/) !== '/.*/')
+                throw new Error('failed!');
+
+        });
+
+        it('should work with instances', () => {
+
+            if (toString(new Func()) !== 'Func')
+                throw new Error('failed!');
+
+        });
+
+        it('should work with objects', () => {
+
+            if (toString({ a: 'abc' }) !== '{"a":"abc"}')
+                throw new Error('failed!');
 
         });
 

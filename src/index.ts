@@ -287,9 +287,12 @@ export class Failed extends Positive {
 
 }
 
-const toString = <A>(value: A): string => {
+/**
+ * @private
+ */
+export const toString = <A>(value: A): string => {
 
-   if (typeof value === 'function') {
+    if (typeof value === 'function') {
 
         return (<any>value).name;
 
