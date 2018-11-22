@@ -289,23 +289,7 @@ export class Failed extends Positive {
 
 const toString = <A>(value: A): string => {
 
-    if (value === null) {
-
-        return 'null';
-
-    } else if (typeof value === 'undefined') {
-
-        return 'undefined';
-
-    } else if (typeof value === 'number') {
-
-        return 'number';
-
-    } else if (typeof value === 'string') {
-
-        return 'string';
-
-    } else if (typeof value === 'function') {
+   if (typeof value === 'function') {
 
         return (<any>value).name;
 

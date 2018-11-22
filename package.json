@@ -4,7 +4,7 @@
   "description": "Assertion library with mocha support.",
   "main": "lib/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --opts mocha.opts test",
+    "test": "./node_modules/.bin/mocha --opts mocha.opts $(find -name *_test.ts)",
     "build": "rm -R lib; mkdir -p lib; ./node_modules/.bin/babel -D src -s inline -d lib"
   },
   "devDependencies": {
