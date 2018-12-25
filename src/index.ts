@@ -217,7 +217,7 @@ export class Positive implements Matcher {
 
     equate(b: Type): Matcher {
 
-        return this.assert(egal.deepEgal(this.value, b), `equate ${b}`);
+        return this.assert(egal.deepEgal(this.value, b), `equate ${toString(b)}`);
 
     }
 
