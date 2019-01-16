@@ -1,5 +1,5 @@
 import * as stringify from 'json-stringify-safe';
-import * as egal from 'egal';
+import deepEqual = require('deep-equal');
 
 /**
  * Type 
@@ -217,7 +217,7 @@ export class Positive implements Matcher {
 
     equate(b: Type): Matcher {
 
-        return this.assert(egal.deepEgal(this.value, b), `equate ${toString(b)}`);
+        return this.assert(deepEqual(this.value, b), `equate ${toString(b)}`);
 
     }
 
