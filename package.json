@@ -1,6 +1,6 @@
 {
   "name": "@quenk/test",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "Mocha compatible testing library.",
   "files": [
     "lib"
