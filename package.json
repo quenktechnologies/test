@@ -8,6 +8,8 @@
   "scripts": {
     "test": "./node_modules/.bin/mocha --opts mocha.opts $(find -name *_test.ts)"
   },
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "devDependencies": {
     "@types/json-stringify-safe": "^5.0.0",
     "@types/mocha": "^5.2.5",
