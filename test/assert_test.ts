@@ -1,4 +1,4 @@
-import { Positive, Negative, Failed, toString } from '../src';
+import { Positive, Negative, Failed, toString } from '../src/assert';
 
 class Func { }
 
@@ -39,7 +39,7 @@ const failed = {
 
 }
 
-describe('must', () => {
+describe('assert', () => {
 
     describe('Matcher', () => {
 

@@ -127,9 +127,9 @@ export declare class Failed extends Positive {
  */
 export declare const toString: <A>(value: A) => string;
 /**
- * must turns a value into a Matcher so it can be tested.
+ * assert turns a value into a Matcher so it can be tested.
  *
  * The Matcher returned is positive and configured to throw
  * errors if any tests fail.
  */
-export declare const must: (value: any) => Matcher;
+export declare const assert: (value: any) => Matcher;

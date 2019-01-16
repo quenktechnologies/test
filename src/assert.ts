@@ -261,6 +261,7 @@ export class Negative extends Positive {
         return super.assert(!ok, condition);
 
     }
+
     get not() {
 
         return new Positive(this.value, this.throwErrors); // not not == true
@@ -313,9 +314,9 @@ export const toString = <A>(value: A): string => {
 }
 
 /**
- * must turns a value into a Matcher so it can be tested.
+ * assert turns a value into a Matcher so it can be tested.
  *
  * The Matcher returned is positive and configured to throw
  * errors if any tests fail.
  */
-export const must = (value: Type): Matcher => new Positive(value, true); 
+export const assert = (value: Type): Matcher => new Positive(value, true); 
