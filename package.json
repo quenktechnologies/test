@@ -1,8 +1,10 @@
 {
   "name": "@quenk/test",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Mocha compatible testing library.",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "./node_modules/.bin/mocha --opts mocha.opts $(find -name *_test.ts)"
   },
