@@ -1,11 +1,11 @@
-# Must
+# Test
 
-Assertion library compatible with mocha.
+Mocha compatible testing library.
 
 ## Installation
 
 ```sh
-npm install --save @quenk/must
+npm install --save @quenk/test
 
 ```
 

@@ -1,12 +1,9 @@
 {
-  "name": "@quenk/must",
+  "name": "@quenk/test",
   "version": "1.0.7",
-  "description": "Assertion library with mocha support.",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "description": "Mocha compatible testing library.",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --opts mocha.opts $(find -name *_test.ts)",
-    "build": "rm -R lib; mkdir -p lib; ./node_modules/.bin/babel -D src -s inline -d lib"
+    "test": "./node_modules/.bin/mocha --opts mocha.opts $(find -name *_test.ts)"
   },
   "devDependencies": {
     "@types/json-stringify-safe": "^5.0.0",
