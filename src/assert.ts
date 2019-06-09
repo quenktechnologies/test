@@ -302,8 +302,8 @@ export const toString = <A>(value: A): string => {
 
     } else if (typeof value === 'object') {
 
-        if ((value.constructor !== Object) && (!Array.isArray(value)))
-            return (<any>value.constructor).name;
+        if (((<any>value).constructor !== Object) && (!Array.isArray(value)))
+            return (<any>(<any>value).constructor).name;
         else
             return stringify(value);
 
