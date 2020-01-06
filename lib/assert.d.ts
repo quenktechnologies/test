@@ -90,9 +90,9 @@ export declare class Positive implements Matcher {
     throwErrors: boolean;
     constructor(value: Type, throwErrors: boolean);
     prefix: string;
-    readonly be: this;
-    readonly not: Negative;
-    readonly instance: this;
+    get be(): this;
+    get not(): Negative;
+    get instance(): this;
     assert(ok: boolean, condition: string): Matcher;
     of(cons: Function): Matcher;
     object(): Matcher;
@@ -114,7 +114,7 @@ export declare class Positive implements Matcher {
 export declare class Negative extends Positive {
     prefix: string;
     assert(ok: boolean, condition: string): Matcher;
-    readonly not: Positive;
+    get not(): Positive;
 }
 /**
  * Failed matcher.
