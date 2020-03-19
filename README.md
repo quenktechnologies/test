@@ -1,6 +1,6 @@
 # Test
 
-Mocha compatible testing library.
+Assertion and mocking tools used by various QT projects.
 
 ## Installation
 
