@@ -13,11 +13,11 @@
   "devDependencies": {
     "@types/deep-equal": "^1.0.1",
     "@types/json-stringify-safe": "^5.0.0",
-    "@types/mocha": "^5.2.7",
-    "@types/node": "^13.1.4",
-    "mocha": "^7.0.0",
-    "ts-node": "^8.5.4",
-    "typescript": "^3.7.4"
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^13.9.2",
+    "mocha": "^7.1.1",
+    "ts-node": "^8.7.0",
+    "typescript": "^3.8.3"
   },
   "author": "Quenk Technologies <dev@quenk.com> (http://quenk.com)",
   "license": "Apache-2.0",
