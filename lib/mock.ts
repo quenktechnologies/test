@@ -1,38 +1,29 @@
 
 /**
- * Value represents any ES value in a type safe way.
+ * ESValue represents any ES value in a type safe way.
  */
-export type Value
+export type ESValue
     = number
     | boolean
     | string
     | object
     | Function
-    | Value[]
+    | null
+    | undefined
+    | ESValue[]
     ;
 
 /**
- * ReturnValue of a mocked method or function.
- *
- * This can be the raw value or a function that given the arguments of the
- * method/function will produce a value.
+ * ESValueCallback
  */
-export type ReturnValue
-    = Value
-    | ValueFun
-    ;
-
-/**
- * ValueFun
- */
-export type ValueFun = (arg: Value[]) => Value;
+export type ESValueCallback = (...arg: ESValue[]) => ESValue;
 
 /**
  * Returns map.
  */
 export interface Returns {
 
-    [key: string]: Return
+    [key: string]: ReturnValue | ReturnCallback
 
 }
 
@@ -43,21 +34,38 @@ export class Invocation {
 
     constructor(
         public name: string,
-        public args: Value[],
-        public value: ReturnValue) { }
+        public args: ESValue[],
+        public value: ESValue) { }
 
 }
 
 /**
- * Return stores a value to be returned by a mocked method.
+ * ReturnValue stores a value to be returned by a mocked method.
  */
-export class Return {
+export class ReturnValue {
 
-    constructor(public name: string, public value: ReturnValue) { }
+    constructor(public name: string, public value: ESValue) { }
 
-    get(): Value {
+    get(..._: ESValue[]): ESValue {
 
         return this.value;
+
+    }
+
+}
+
+/**
+ * ReturnCallback allows a function to be used to provide a ReturnValue.
+ */
+export class ReturnCallback {
+
+    constructor(
+        public name: string,
+        public value: (...args: ESValue[]) => ESValue) { }
+
+    get(...args: ESValue[]): ESValue {
+
+        return this.value.apply(undefined, args);
 
     }
 
@@ -83,12 +91,12 @@ export class Mock {
      * @param args   - An array of arguments the method is called with.
      * @param ret    - The return value of the method invocation.
      */
-    invoke<T extends Value>(method: string, args: Value[], ret: T): T {
+    invoke<T extends ESValue>(method: string, args: ESValue[], ret: T): T {
 
         this.calls.push(new Invocation(method, args, ret));
 
         return this.returns.hasOwnProperty(method) ?
-            <T>this.returns[method].get() : ret;
+            <T>this.returns[method].get.apply(this.returns[method], args) : ret;
 
     }
 
@@ -96,9 +104,24 @@ export class Mock {
      * setReturnValue so that invocation of a method always return the desired
      * result.
      */
-    setReturnValue(method: string, value: ReturnValue): Mock {
+    setReturnValue<T extends ESValue>(method: string, value: T): Mock {
 
-        this.returns[method] = new Return(method, value);
+        this.returns[method] = new ReturnValue(method, value);
+
+        return this;
+
+    }
+
+    /**
+     * setReturnCallback allows a function to provide the return value
+     * of a method on invocation.
+     */
+    setReturnCallback<T extends ESValue>(
+        method: string,
+        value: (...args: T[]) => ESValue): Mock {
+
+        this.returns[method] =
+            new ReturnCallback(method, <ESValueCallback>value);
 
         return this;
 

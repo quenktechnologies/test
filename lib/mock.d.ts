@@ -1,41 +1,43 @@
 /**
- * Value represents any ES value in a type safe way.
+ * ESValue represents any ES value in a type safe way.
  */
-export declare type Value = number | boolean | string | object | Function | Value[];
+export declare type ESValue = number | boolean | string | object | Function | null | undefined | ESValue[];
 /**
- * ReturnValue of a mocked method or function.
- *
- * This can be the raw value or a function that given the arguments of the
- * method/function will produce a value.
+ * ESValueCallback
  */
-export declare type ReturnValue = Value | ValueFun;
-/**
- * ValueFun
- */
-export declare type ValueFun = (arg: Value[]) => Value;
+export declare type ESValueCallback = (...arg: ESValue[]) => ESValue;
 /**
  * Returns map.
  */
 export interface Returns {
-    [key: string]: Return;
+    [key: string]: ReturnValue | ReturnCallback;
 }
 /**
  * Invocation is a recording of method invocations stored by a Mock.
  */
 export declare class Invocation {
     name: string;
-    args: Value[];
-    value: ReturnValue;
-    constructor(name: string, args: Value[], value: ReturnValue);
+    args: ESValue[];
+    value: ESValue;
+    constructor(name: string, args: ESValue[], value: ESValue);
 }
 /**
- * Return stores a value to be returned by a mocked method.
+ * ReturnValue stores a value to be returned by a mocked method.
  */
-export declare class Return {
+export declare class ReturnValue {
     name: string;
-    value: ReturnValue;
-    constructor(name: string, value: ReturnValue);
-    get(): Value;
+    value: ESValue;
+    constructor(name: string, value: ESValue);
+    get(..._: ESValue[]): ESValue;
+}
+/**
+ * ReturnCallback allows a function to be used to provide a ReturnValue.
+ */
+export declare class ReturnCallback {
+    name: string;
+    value: (...args: ESValue[]) => ESValue;
+    constructor(name: string, value: (...args: ESValue[]) => ESValue);
+    get(...args: ESValue[]): ESValue;
 }
 /**
  * Mock is a class that can be used to keep track of the mocking of some
@@ -55,12 +57,17 @@ export declare class Mock {
      * @param args   - An array of arguments the method is called with.
      * @param ret    - The return value of the method invocation.
      */
-    invoke<T extends Value>(method: string, args: Value[], ret: T): T;
+    invoke<T extends ESValue>(method: string, args: ESValue[], ret: T): T;
     /**
      * setReturnValue so that invocation of a method always return the desired
      * result.
      */
-    setReturnValue(method: string, value: ReturnValue): Mock;
+    setReturnValue<T extends ESValue>(method: string, value: T): Mock;
+    /**
+     * setReturnCallback allows a function to provide the return value
+     * of a method on invocation.
+     */
+    setReturnCallback<T extends ESValue>(method: string, value: (...args: T[]) => ESValue): Mock;
     /**
      * getCalledList returns a list of methods that have been called so far.
      */
