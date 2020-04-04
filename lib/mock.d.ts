@@ -69,6 +69,19 @@ export declare class Mock {
      */
     setReturnCallback<T extends ESValue>(method: string, value: (...args: T[]) => ESValue): Mock;
     /**
+     * getCalledWith tests whether a method was called with the specified args.
+     *
+     * Compared using === .
+     */
+    getCalledWith(name: string, args: ESValue[]): boolean;
+    /**
+     * getCalledWithDeep tests whether a method was called with the specified
+     * args.
+     *
+     * Compared using deepEqual.
+     */
+    getCalledWithDeep(name: string, args: ESValue[]): boolean;
+    /**
      * getCalledList returns a list of methods that have been called so far.
      */
     getCalledList(): string[];

@@ -1,3 +1,4 @@
+import deepEqual = require('deep-equal');
 
 /**
  * ESValue represents any ES value in a type safe way.
@@ -124,6 +125,31 @@ export class Mock {
             new ReturnCallback(method, <ESValueCallback>value);
 
         return this;
+
+    }
+
+    /**
+     * getCalledWith tests whether a method was called with the specified args.
+     *
+     * Compared using === .
+     */
+    getCalledWith(name: string, args: ESValue[]): boolean {
+
+        return this.calls.some(c => (c.name === name) &&
+            c.args.every((a, i) => a === args[i]));
+
+    }
+
+    /**
+     * getCalledWithDeep tests whether a method was called with the specified
+     * args.
+     *
+     * Compared using deepEqual.
+     */
+    getCalledWithDeep(name: string, args: ESValue[]): boolean {
+
+        return this.calls.some(c =>
+            (c.name === name) && deepEqual(c.args, args));
 
     }
 

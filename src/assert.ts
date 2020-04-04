@@ -1,4 +1,5 @@
 import * as stringify from 'json-stringify-safe';
+
 import deepEqual = require('deep-equal');
 
 /**
