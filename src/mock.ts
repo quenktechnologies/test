@@ -129,6 +129,20 @@ export class Mock {
     }
 
     /**
+     * getCalledArgs provides the first set of arguments a method was called
+     * with.
+     *
+     * The array is empty if the method was never called.
+     */
+    getCalledArgs(name: string): ESValue {
+
+        return this.calls.reduce((p, c) =>
+            (p.length > 0) ? p : (c.name === name) ?
+                c.args : p, <ESValue[]>[]);
+
+    }
+
+    /**
      * getCalledWith tests whether a method was called with the specified args.
      *
      * Compared using === .

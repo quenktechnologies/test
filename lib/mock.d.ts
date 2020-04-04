@@ -69,6 +69,13 @@ export declare class Mock {
      */
     setReturnCallback<T extends ESValue>(method: string, value: (...args: T[]) => ESValue): Mock;
     /**
+     * getCalledArgs provides the first set of arguments a method was called
+     * with.
+     *
+     * The array is empty if the method was never called.
+     */
+    getCalledArgs(name: string): ESValue;
+    /**
      * getCalledWith tests whether a method was called with the specified args.
      *
      * Compared using === .
