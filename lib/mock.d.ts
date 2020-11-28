@@ -76,18 +76,18 @@ export declare class Mock {
      */
     getCalledArgs(name: string): ESValue;
     /**
-     * getCalledWith tests whether a method was called with the specified args.
+     * wasCalledWith tests whether a method was called with the specified args.
      *
      * Compared using === .
      */
-    getCalledWith(name: string, args: ESValue[]): boolean;
+    wasCalledWith(name: string, args: ESValue[]): boolean;
     /**
-     * getCalledWithDeep tests whether a method was called with the specified
+     * wasCalledWithDeep tests whether a method was called with the specified
      * args.
      *
      * Compared using deepEqual.
      */
-    getCalledWithDeep(name: string, args: ESValue[]): boolean;
+    wasCalledWithDeep(name: string, args: ESValue[]): boolean;
     /**
      * getCalledList returns a list of methods that have been called so far.
      */

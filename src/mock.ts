@@ -143,11 +143,11 @@ export class Mock {
     }
 
     /**
-     * getCalledWith tests whether a method was called with the specified args.
+     * wasCalledWith tests whether a method was called with the specified args.
      *
      * Compared using === .
      */
-    getCalledWith(name: string, args: ESValue[]): boolean {
+    wasCalledWith(name: string, args: ESValue[]): boolean {
 
         return this.calls.some(c => (c.name === name) &&
             c.args.every((a, i) => a === args[i]));
@@ -155,12 +155,12 @@ export class Mock {
     }
 
     /**
-     * getCalledWithDeep tests whether a method was called with the specified
+     * wasCalledWithDeep tests whether a method was called with the specified
      * args.
      *
      * Compared using deepEqual.
      */
-    getCalledWithDeep(name: string, args: ESValue[]): boolean {
+    wasCalledWithDeep(name: string, args: ESValue[]): boolean {
 
         return this.calls.some(c =>
             (c.name === name) && deepEqual(c.args, args));
