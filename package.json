@@ -13,16 +13,16 @@
   "devDependencies": {
     "@types/json-stringify-safe": "^5.0.0",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.13.33",
+    "@types/node": "^13.13.38",
     "mocha": "^8.2.1",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.1.2"
+    "ts-node": "^9.1.1",
+    "typescript": "^4.1.3"
   },
   "author": "Quenk Technologies <dev@quenk.com> (http://quenk.com)",
   "license": "Apache-2.0",
   "dependencies": {
-    "json-stringify-safe": "^5.0.1",
-    "deep-equal": "^1.1.0",
-    "@types/deep-equal": "^1.0.1"
+    "@types/deep-equal": "^1.0.1",
+    "deep-equal": "^1.1.1",
+    "json-stringify-safe": "^5.0.1"
   }
 }
