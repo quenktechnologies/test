@@ -1,23 +1,6 @@
 import deepEqual = require('deep-equal');
 
-/**
- * ESValue represents any ES value in a type safe way.
- */
-export type ESValue
-    = number
-    | boolean
-    | string
-    | object
-    | Function
-    | null
-    | undefined
-    | ESValue[]
-    ;
-
-/**
- * ESValueCallback
- */
-export type ESValueCallback = (...arg: ESValue[]) => ESValue;
+import { ESValue, ESValueCallback, Invocation } from './';
 
 /**
  * Returns map.
@@ -25,18 +8,6 @@ export type ESValueCallback = (...arg: ESValue[]) => ESValue;
 export interface Returns {
 
     [key: string]: ReturnValue | ReturnCallback
-
-}
-
-/**
- * Invocation is a recording of method invocations stored by a Mock.
- */
-export class Invocation {
-
-    constructor(
-        public name: string,
-        public args: ESValue[],
-        public value: ESValue) { }
 
 }
 
@@ -73,58 +44,25 @@ export class ReturnCallback {
 }
 
 /**
- * Mock is a class that can be used to keep track of the mocking of some
+ * MockObject is a class that can be used to keep track of the mocking of some
  * interface.
  *
  * It provides methods for recording the invocation of methods and setting
- * their return values. Generally, embedding a Mock instance is preffered to 
- * extending the class.
+ * their return values. Generally, embedding a MockObject instance is preffered 
+ * to extending the class.
  */
-export class Mock {
+export class MockObject {
 
-    constructor(
-        public calls: Invocation[] = [],
-        public returns: Returns = {}) { }
+    calls = <Invocation[]>[];
 
-    /**
-     * invoke records the invocation of a method.
-     * @param method - The method name.
-     * @param args   - An array of arguments the method is called with.
-     * @param ret    - The return value of the method invocation.
-     */
-    invoke<T extends ESValue>(method: string, args: ESValue[], ret: T): T {
-
-        this.calls.push(new Invocation(method, args, ret));
-
-        return this.returns.hasOwnProperty(method) ?
-            <T>this.returns[method].get.apply(this.returns[method], args) : ret;
-
-    }
+    returns = <Returns>{};
 
     /**
-     * setReturnValue so that invocation of a method always return the desired
-     * result.
+     * getCalledCount provides the number of times a method was called.
      */
-    setReturnValue<T extends ESValue>(method: string, value: T): Mock {
+    getCalledCount(method: string): number {
 
-        this.returns[method] = new ReturnValue(method, value);
-
-        return this;
-
-    }
-
-    /**
-     * setReturnCallback allows a function to provide the return value
-     * of a method on invocation.
-     */
-    setReturnCallback<T extends ESValue>(
-        method: string,
-        value: (...args: T[]) => ESValue): Mock {
-
-        this.returns[method] =
-            new ReturnCallback(method, <ESValueCallback>value);
-
-        return this;
+        return this.calls.reduce((p, c) => (c.name === method) ? p + 1 : p, 0);
 
     }
 
@@ -139,6 +77,57 @@ export class Mock {
         return this.calls.reduce((p, c) =>
             (p.length > 0) ? p : (c.name === name) ?
                 c.args : p, <ESValue[]>[]);
+
+    }
+
+    /**
+     * getCalledList returns a list of methods that have been called so far.
+     */
+    getCalledList(): string[] {
+
+        return this.calls.map(c => c.name);
+
+    }
+
+    /**
+     * setReturnValue so that invocation of a method always return the desired
+     * result.
+     */
+    setReturnValue<T extends ESValue>(method: string, value: T): MockObject {
+
+        this.returns[method] = new ReturnValue(method, value);
+
+        return this;
+
+    }
+
+    /**
+     * setReturnCallback allows a function to provide the return value
+     * of a method on invocation.
+     */
+    setReturnCallback<T extends ESValue>(
+        method: string,
+        value: (...args: T[]) => ESValue): MockObject {
+
+        this.returns[method] =
+            new ReturnCallback(method, <ESValueCallback>value);
+
+        return this;
+
+    }
+
+    /**
+     * invoke records the invocation of a method.
+     * @param method - The method name.
+     * @param args   - An array of arguments the method is called with.
+     * @param ret    - The return value of the method invocation.
+     */
+    invoke<T extends ESValue>(method: string, args: ESValue[], ret: T): T {
+
+        this.calls.push(new Invocation(method, args, ret));
+
+        return this.returns.hasOwnProperty(method) ?
+            <T>this.returns[method].get.apply(this.returns[method], args) : ret;
 
     }
 
@@ -168,15 +157,6 @@ export class Mock {
     }
 
     /**
-     * getCalledList returns a list of methods that have been called so far.
-     */
-    getCalledList(): string[] {
-
-        return this.calls.map(c => c.name);
-
-    }
-
-    /**
      * wasCalled tests whether a method was called.
      */
     wasCalled(method: string): boolean {
@@ -190,6 +170,10 @@ export class Mock {
      * times.
      */
     wasCalledNTimes(method: string, n: number): boolean {
+
+        console.warn(
+          'wasCalledNTimes: deprecated, use getCalledCount() instead.'
+        );
 
         return this.getCalledList().reduce((p, c) =>
             (c === method) ? p + 1 : p, 0) === n;
