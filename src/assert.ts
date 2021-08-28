@@ -29,6 +29,11 @@ export interface Matcher {
     be: Matcher;
 
     /**
+     * is an alternative to be.
+     */
+    is: Matcher;
+
+    /**
      * not is a convenience property for a negative matcher.
      */
     not: Matcher;
@@ -111,13 +116,19 @@ export interface Matcher {
 export class Positive implements Matcher {
 
     constructor(
-      public name: string,
-      public value: Type, 
-      public throwErrors: boolean) { }
+        public name: string,
+        public value: Type,
+        public throwErrors: boolean) { }
 
     prefix = 'must';
 
     get be() {
+
+        return this;
+
+    }
+
+    get is() {
 
         return this;
 
@@ -236,7 +247,7 @@ export class Positive implements Matcher {
 
             if (message != null) {
 
-                ok = e.message === message;
+                ok = (<Error>e).message === message;
 
             } else {
 
@@ -268,7 +279,7 @@ export class Negative extends Positive {
     get not() {
 
         // not not == true
-        return new Positive(this.name, this.value, this.throwErrors); 
+        return new Positive(this.name, this.value, this.throwErrors);
 
     }
 
@@ -325,5 +336,5 @@ export const toString = <A>(value: A): string => {
  * The Matcher returned is positive and configured to throw
  * errors if any tests fail.
  */
-export const assert = (value: Type, name=''): Matcher => 
-  new Positive(name ? name : toString(value), value, true); 
+export const assert = (value: Type, name = ''): Matcher =>
+    new Positive(name ? name : toString(value), value, true);
