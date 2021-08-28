@@ -110,7 +110,10 @@ export interface Matcher {
  */
 export class Positive implements Matcher {
 
-    constructor(public value: Type, public throwErrors: boolean) { }
+    constructor(
+      public name: string,
+      public value: Type, 
+      public throwErrors: boolean) { }
 
     prefix = 'must';
 
@@ -122,7 +125,7 @@ export class Positive implements Matcher {
 
     get not() {
 
-        return new Negative(this.value, this.throwErrors);
+        return new Negative(this.name, this.value, this.throwErrors);
 
     }
 
@@ -137,10 +140,9 @@ export class Positive implements Matcher {
         if (!ok) {
 
             if (this.throwErrors)
-                throw new Error(`The value ${toString(this.value)} ${this.prefix} ` +
-                    `${condition}!`);
+                throw new Error(`${this.name} ${this.prefix} ${condition}!`);
 
-            return new Failed(this.value, this.throwErrors);
+            return new Failed(this.name, this.value, this.throwErrors);
 
         }
 
@@ -265,7 +267,8 @@ export class Negative extends Positive {
 
     get not() {
 
-        return new Positive(this.value, this.throwErrors); // not not == true
+        // not not == true
+        return new Positive(this.name, this.value, this.throwErrors); 
 
     }
 
@@ -322,4 +325,5 @@ export const toString = <A>(value: A): string => {
  * The Matcher returned is positive and configured to throw
  * errors if any tests fail.
  */
-export const assert = (value: Type): Matcher => new Positive(value, true); 
+export const assert = (value: Type, name=''): Matcher => 
+  new Positive(name ? name : toString(value), value, true); 
