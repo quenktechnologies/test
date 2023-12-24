@@ -1,4 +1,4 @@
-import { Positive, Negative, Failed, toString } from '../src/assert';
+import { Positive, Negative, Failed, toString } from '../lib/assert';
 
 class Func { }
 
