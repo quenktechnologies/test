@@ -61,7 +61,7 @@ export interface Matcher {
     /**
      * throw checks if a function raised an error.
      */
-    throw(message?: string): Matcher;
+    throw(error?: Error | string): Matcher;
 
     /**
      * object value check.
@@ -116,9 +116,10 @@ export interface Matcher {
 export class Positive implements Matcher {
 
     constructor(
-        public name: string,
         public value: Type,
-        public throwErrors: boolean) { }
+        public throwErrors: boolean,
+        public name: string = ''
+    ) { }
 
     prefix = 'must';
 
@@ -136,7 +137,7 @@ export class Positive implements Matcher {
 
     get not() {
 
-        return new Negative(this.name, this.value, this.throwErrors);
+        return new Negative(this.value, this.throwErrors, this.name);
 
     }
 
@@ -153,7 +154,7 @@ export class Positive implements Matcher {
             if (this.throwErrors)
                 throw new Error(`${this.name} ${this.prefix} ${condition}!`);
 
-            return new Failed(this.name, this.value, this.throwErrors);
+            return new Failed(this.value, this.throwErrors, this.name);
 
         }
 
@@ -235,9 +236,10 @@ export class Positive implements Matcher {
 
     }
 
-    throw(message?: string): Matcher {
+    throw(error?: Error | string): Matcher {
 
         let ok = false;
+        let message = error instanceof Error ? error.message : error;
 
         try {
 
@@ -245,19 +247,11 @@ export class Positive implements Matcher {
 
         } catch (e) {
 
-            if (message != null) {
-
-                ok = (<Error>e).message === message;
-
-            } else {
-
-                ok = true;
-
-            }
+            ok = message ? (<Error>e).message === message : true;
 
         }
 
-        return this.assert(ok, `throw ${(message != null) ? message : ''}`);
+        return this.assert(ok, 'throw Error' + message ? `: "${message}"` : '');
 
     }
 
@@ -278,8 +272,7 @@ export class Negative extends Positive {
 
     get not() {
 
-        // not not == true
-        return new Positive(this.name, this.value, this.throwErrors);
+        return new Positive(this.value, this.throwErrors, this.name);
 
     }
 
@@ -337,4 +330,4 @@ export const toString = <A>(value: A): string => {
  * errors if any tests fail.
  */
 export const assert = (value: Type, name = ''): Matcher =>
-    new Positive(name ? name : toString(value), value, true);
+    new Positive(value, true, name ? name : toString(value));
