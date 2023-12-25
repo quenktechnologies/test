@@ -1,6 +1,6 @@
 {
   "name": "@quenk/test",
-  "version": "2.6.0",
+  "version": "2.6.1",
   "description": "Quenk testing library for ECMAScript projects.",
   "files": [
     "lib"
