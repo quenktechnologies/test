@@ -14,15 +14,15 @@
     "@types/json-stringify-safe": "^5.0.0",
     "@types/mocha": "^10.0.6",
     "@types/node": "^20.10.5",
-    "deep-equal": "^2.2.3",
     "mocha": "^10.2.0",
     "ts-node": "^10.9.2",
+    "@types/deep-equal": "^1.0.1",
     "typescript": "^5.3.3"
   },
   "author": "Quenk Technologies <dev@quenk.com> (http://quenk.com)",
   "license": "Apache-2.0",
   "dependencies": {
-    "@types/deep-equal": "^1.0.1",
+    "deep-equal": "^2.2.3",
     "json-stringify-safe": "^5.0.1"
   }
 }
